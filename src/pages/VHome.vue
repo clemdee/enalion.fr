@@ -42,7 +42,7 @@
         </a>
         -->
         <a
-          href="#"
+          href="https://open.spotify.com/artist/3959zEpyuxTQj1nIWOziCL"
           target="_blank"
           rel="noopener noreferrer"
         >
