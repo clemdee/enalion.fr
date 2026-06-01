@@ -34,16 +34,11 @@
     "simple-git-hooks": "^2.12.1",
     "typescript": "~5.4.5",
     "vite": "^5.4.14",
-    "vite-imagetools": "^7.0.5",
+    "vite-imagetools": "^10.0.0",
     "vite-plugin-qrcode": "^0.2.4",
     "vite-plugin-vue-devtools": "^7.7.2",
     "vite-ssg": "^0.23.8",
     "vue-tsc": "^2.2.8"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "sharp@0.33.5": "patches/sharp@0.33.5.patch"
-    }
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
