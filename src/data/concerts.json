@@ -5,19 +5,19 @@
     "time": "",
     "flag": "🇫🇷",
     "city": "Malakoff",
-    "address": "TBA",
+    "address": "MQB, 4 Bd Louise Michel, 92240 Malakoff",
     "reservation": "Entrée libre"
   },
 
   {
     "name": "Festival ReuTeuLeu",
-    "date": "2025-02",
-    "time": "",
+    "date": "2025-02-15",
+    "time": "00:30",
     "flag": "🇫🇷",
     "city": "Lyon",
-    "address": "TBA",
-    "reservation": "Entrée libre",
-    "website": "https://reuteuleu.fr/"
+    "address": "ENTPE, 3 rue Maurice Audin, 69120 Vaulx-en-Velin",
+    "reservation": "2€ / non-adhérents au BDE",
+    "website": "https://www.lyoncampus.com/sortir/agenda/detail-dun-evenement/festival-des-reuteuleu"
   },
 
   {

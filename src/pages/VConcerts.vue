@@ -5,35 +5,37 @@
         Prochains concerts
       </h2>
 
-      <p class="description">
-        Venir écouter Enalion en concert
-        <VExpandAll v-model="upcomingOpened" />
-      </p>
+      <div
+        v-if="upcoming.length === 0"
+        class="no-concerts"
+      >
+        <p>
+          Pas de concert pour le moment
+        </p>
 
-      <div class="concerts-list">
-        <div
-          v-if="concerts.length === 0"
-          class="no-concerts"
-        >
-          <iconify-icon
-            icon="mdi:smiley-cry-outline"
-            title="Instagram"
-          />
-          <p>
-            Pas de concert pour le moment
-          </p>
-        </div>
-
-        <VConcert
-          v-for="(concert, index) in upcoming"
-          :key="`${concert.date} ${concert.time}`"
-          v-model="upcomingOpened[index]"
-          :concert="concert"
-          :style="{
-            '--index': index,
-          }"
+        <iconify-icon
+          icon="mdi:smiley-cry-outline"
         />
       </div>
+
+      <template v-else>
+        <p class="description">
+          Venir écouter Enalion en concert
+          <VExpandAll v-model="upcomingOpened" />
+        </p>
+
+        <div class="concerts-list">
+          <VConcert
+            v-for="(concert, index) in upcoming"
+            :key="`${concert.date} ${concert.time}`"
+            v-model="upcomingOpened[index]"
+            :concert="concert"
+            :style="{
+              '--index': index,
+            }"
+          />
+        </div>
+      </template>
     </article>
 
     <article class="concerts-type concerts-past">
@@ -74,6 +76,7 @@
 import { ref } from 'vue';
 import VConcert from '~/components/VConcert.vue';
 import VExpandAll from '~/components/VExpandAll.vue';
+import { useDateTimeData } from '~/composables/date';
 import { useHead } from '~/composables/head';
 import { groupBy } from '~/composables/utils';
 import concerts from '~/data/concerts.json';
@@ -83,10 +86,20 @@ useHead({
   description: `Venir écouter Enalion en concert`,
 });
 
+const concertSorted = concerts.slice().sort(
+  (concertA, concertB) => {
+    if (!concertA.date && !concertB.date) return 0;
+    else if (!concertA.date) return 1;
+    else if (!concertB.date) return -1;
+    const dateA = useDateTimeData(concertA);
+    const dateB = useDateTimeData(concertB);
+    return dateA.value.date.getTime() - dateB.value.date.getTime();
+  },
+).reverse();
+
 const today = (new Date()).valueOf();
-const { upcoming, past } = groupBy(concerts, (concert) => {
-  if (!concert.date)
-    return 'upcoming';
+const { upcoming = [], past = [] } = groupBy(concertSorted, (concert) => {
+  if (!concert.date) return 'upcoming';
   return (new Date(concert.date)).valueOf() < today
     ? 'past'
     : 'upcoming';
@@ -126,6 +139,22 @@ const upcomingOpened = ref(Array.from({ length: upcoming?.length ?? 0 }).map(() 
       animation: slide-in ease 1.5s 0.5s both;
     }
 
+    .no-concerts {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 1ch;
+      margin-block-start: 1rem;
+      --animation-dy: -2rem;
+      animation: slide-in ease 1s 1s both;
+      font-style: italic;
+
+      iconify-icon {
+        font-size: 2rem;
+      }
+    }
+
     .concerts-list {
       display: flex;
       flex-direction: column;
@@ -134,21 +163,6 @@ const upcomingOpened = ref(Array.from({ length: upcoming?.length ?? 0 }).map(() 
       gap: 1rem;
       width: 100%;
       margin-block-start: 1rem;
-
-      .no-concerts {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 1ch;
-        margin-block: 3rem;
-        --animation-dy: -2rem;
-        animation: slide-in ease 1s 1s both;
-
-        iconify-icon {
-          font-size: 2rem;
-        }
-      }
 
       .concert {
         --delay: calc(pow(var(--index, 0), 0.6) * 250ms);
