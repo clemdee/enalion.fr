@@ -3,10 +3,13 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@10.6.5",
+  "packageManager": "pnpm@11.5.0",
   "description": "Official Enalion Website",
   "author": "Clément Desableau<https://github.com/clemdee>",
   "license": "MIT",
+  "engines": {
+    "node": "^24.16.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite-ssg build",
